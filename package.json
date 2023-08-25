@@ -1,0 +1,42 @@
+{
+  "name": "@dashkite/zephyr",
+  "version": "0.0.0",
+  "description": "Read/write configuration files easily",
+  "keywords": [],
+  "homepage": "https://github.com/dashkite/zephyr#readme",
+  "bugs": {
+    "url": "https://github.com/dashkite/zephyr/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dashkite/zephyr.git"
+  },
+  "license": "SEE LICENSE IN LICENSE.md",
+  "author": "Daniel Yoder",
+  "exports": {
+    ".": {
+      "browser": "./build/browser/src/index.js",
+      "node": "./build/node/src/index.js"
+    }
+  },
+  "main": "build/node/src/index.js",
+  "files": [
+    "build/browser/src",
+    "build/node/src"
+  ],
+  "scripts": {
+    "test": "genie test",
+    "build": "genie build"
+  },
+  "devDependencies": {
+    "@dashkite/amen": "^0.2.0",
+    "@dashkite/amen-console": "^0.0.2",
+    "@dashkite/assert": "^0.1.4",
+    "@dashkite/genie": "^0.5.11",
+    "@dashkite/genie-presets": "^0.6.4"
+  },
+  "dependencies": {
+    "@dashkite/joy": "^0.3.16",
+    "js-yaml": "^4.1.0"
+  }
+}
