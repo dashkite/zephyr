@@ -3,30 +3,42 @@ import Path from "node:path"
 import * as Value from "@dashkite/joy/value"
 import YAML from "js-yaml"
 
+formats =
+  ".json":
+    parse: ( text ) -> JSON.parse text
+    format: ( data ) -> JSON.stringify text, null, 2
+  ".yaml": _yaml =
+    parse: ( text ) -> YAML.load text
+    format: ( data ) -> YAML.dump data
+  ".yml": _yaml
+
+register = ( extension, handlers ) ->
+  formats[ extension ] = handlers
+
 cache = {}
 
 read = ( path ) ->
-  Value.clone cache[ path ] ?= await do ->
-    try
-      text = await FS.readFile path, "utf8"
-      switch Path.extname path
-        when ".yaml", ".yml" then YAML.load text
-        when ".json" then JSON.parse text
-        else throw new "Unknown file extension for #{ path }" 
-    catch
-      {}
+  if ( handlers = formats[ Path.extname path ] )?
+    Value.clone cache[ path ] ?= await do ->
+      try
+        text = await FS.readFile path, "utf8"
+        handlers.parse text
+      catch
+        {}
+  else throw new "Unknown file extension for #{ path }" 
 
 write = ( path, data ) ->
-  unless Value.equal cache[ path ], data
-    cache[ path ] = data
-    await FS.mkdir ( Path.dirname path ), recursive: true
-    FS.writeFile path,
-      switch Path.extname path
-        when ".yaml", ".yml" then YAML.dump data
-        when ".json" then JSON.stringify data
-        else throw new "Unknown file extension for #{ path }" 
+  if ( handlers = formats[ Path.extname path ] )?
+    unless Value.equal cache[ path ], data
+      cache[ path ] = data
+      await FS.mkdir ( Path.dirname path ), recursive: true
+      FS.writeFile path, handlers.format data
 
 Zephyr =
+
+  Formats: formats
+    
+  register: register
 
   read: ( path ) ->
     data = await read path
