@@ -1,9 +1,10 @@
 import FS from "node:fs/promises"
 import Path from "node:path"
+import * as Fn from "@dashkite/joy/function"
 import * as Value from "@dashkite/joy/value"
 import YAML from "js-yaml"
 
-formats =
+Formats =
   ".json":
     parse: ( text ) -> JSON.parse text
     format: ( data ) -> JSON.stringify text, null, 2
@@ -12,45 +13,56 @@ formats =
     format: ( data ) -> YAML.dump data
   ".yml": _yaml
 
+Text =
+  parse: Fn.identity
+  format: Fn.identity
+
 register = ( extension, handlers ) ->
-  formats[ extension ] = handlers
+  Formats[ extension ] = handlers
 
 cache = {}
 
 read = ( path ) ->
-  if ( handlers = formats[ Path.extname path ] )?
-    Value.clone cache[ path ] ?= await do ->
-      try
-        text = await FS.readFile path, "utf8"
-        handlers.parse text
-      catch
-        {}
-  else throw new "Unknown file extension for #{ path }" 
+  Value.clone cache[ path ] ?= await do ->
+    { parse, initialize } = Formats[ Path.extname path ] ? Text
+    try
+      text = await FS.readFile path, "utf8"
+      parse text
+    catch
+      undefined
 
 write = ( path, data ) ->
-  if ( handlers = formats[ Path.extname path ] )?
-    unless Value.equal cache[ path ], data
-      cache[ path ] = data
-      await FS.mkdir ( Path.dirname path ), recursive: true
-      FS.writeFile path, handlers.format data
+  unless Value.equal cache[ path ], data
+    cache[ path ] = data
+    { format } = Formats[ Path.extname path ] ? Text
+    await FS.mkdir ( Path.dirname path ), recursive: true
+    FS.writeFile path, format data
 
-Zephyr =
+class Zephyr
 
-  Formats: formats
+  @make: ( path ) -> Object.assign ( new @ ), { path }
+
+  @Formats: Formats
     
-  register: register
+  @register: register
 
-  read: ( path ) ->
-    data = await read path
-    { data, path }
+  @exists: ( path ) -> exists path
 
-  write: ({ path, data }) -> write path, data
+  @read: ( path ) -> read path
 
-  update: ( path, updater ) ->
-    proxy = await @read path
-    await updater proxy.data
-    @write proxy
+  @write: ( path, data ) -> write path, data
 
+  @update: ( path, updater ) ->
+    write path, await updater await read path
+
+  exists: -> exists @path
+
+  read: -> read @path
+
+  write: ( data ) -> write @path, data
+
+  update: ( updater ) ->
+    write @path, await updater await read @path
 
 export { Zephyr }
 export default Zephyr

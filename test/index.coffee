@@ -13,8 +13,11 @@ do ->
 
     test "YAML", ->
       await Zephyr.update "test/test.yaml", ( data ) ->
-        data.greeting = "Hello, world!"
-      { data } = await Zephyr.read "test/test.yaml"
+        if data?
+          {}  # cause test to fail
+        else
+          greeting: "Hello, world!"
+      data = await Zephyr.read "test/test.yaml"
       assert.equal data.greeting, "Hello, world!"
       FS.rm "test/test.yaml"
 
