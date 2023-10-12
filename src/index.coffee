@@ -38,6 +38,8 @@ write = ( path, data ) ->
     await FS.mkdir ( Path.dirname path ), recursive: true
     FS.writeFile path, format data
 
+remove = ( path ) -> FS.rm path
+
 class Zephyr
 
   @make: ( path ) -> Object.assign ( new @ ), { path }
@@ -55,6 +57,8 @@ class Zephyr
   @update: ( path, updater ) ->
     write path, await updater await read path
 
+  @remove: ( path ) -> remove path
+
   exists: -> exists @path
 
   read: -> read @path
@@ -63,6 +67,8 @@ class Zephyr
 
   update: ( updater ) ->
     write @path, await updater await read @path
+
+  remove: -> remove @path
 
 export { Zephyr }
 export default Zephyr
