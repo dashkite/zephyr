@@ -42,6 +42,8 @@ remove = ( path ) -> FS.rm path
 
 class Zephyr
 
+  @clear: -> cache = {}
+
   @make: ( path ) -> Object.assign ( new @ ), { path }
 
   @Formats: Formats
