@@ -7,7 +7,7 @@ import YAML from "js-yaml"
 Formats =
   ".json":
     parse: ( text ) -> JSON.parse text
-    format: ( data ) -> JSON.stringify text, null, 2
+    format: ( data ) -> JSON.stringify data, null, 2
   ".yaml": _yaml =
     parse: ( text ) -> YAML.load text
     format: ( data ) -> YAML.dump data
