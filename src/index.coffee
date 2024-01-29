@@ -22,13 +22,18 @@ register = ( extension, handlers ) ->
 
 cache = {}
 
+_read = ( path ) ->
+  try
+    await FS.readFile path, "utf8"
+  catch
+    undefined
+
 read = ( path ) ->
   Value.clone cache[ path ] ?= await do ->
     { parse, initialize } = Formats[ Path.extname path ] ? Text
-    try
-      text = await FS.readFile path, "utf8"
+    if ( text = await _read path )?
       parse text
-    catch
+    else
       undefined
 
 write = ( path, data ) ->
