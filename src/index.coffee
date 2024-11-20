@@ -28,6 +28,8 @@ _read = ( path ) ->
   catch
     undefined
 
+exists = ( path ) -> ( await _read path )?
+
 read = ( path ) ->
   Value.clone cache[ path ] ?= await do ->
     { parse, initialize } = Formats[ Path.extname path ] ? Text
