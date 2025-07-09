@@ -34,11 +34,8 @@ importers:
         specifier: ^0.1.0
         version: 0.1.0
       '@dashkite/genie-release':
-        specifier: link:../genie-release
-        version: link:../genie-release
-      '@dashkite/vista':
-        specifier: link:../vista
-        version: link:../vista
+        specifier: ^0.2.0
+        version: 0.2.0
 
 packages:
 
@@ -604,6 +601,9 @@ packages:
   '@dashkite/genie-coffee@0.1.0':
     resolution: {integrity: sha512-2yV0xDKdUq2LYFl7vXWj3Yj7eG8afAFQDHtV2IyF90kkTCQIoYdWDkP/ArFpdPE5og3ci0ajy0PIAYJQvZfYGw==}
 
+  '@dashkite/genie-release@0.2.0':
+    resolution: {integrity: sha512-ySaAzJw7FfpF+lIomBjQm1s8rcrCDl29h6p0Wyaa6Br/FdIFyDbc8CRJKS8BnxMqN5sEN3J/qE/t7QNk7mZMKw==}
+
   '@dashkite/genie@0.8.4':
     resolution: {integrity: sha512-f4c84JoTaIoEvSwwre9lOD4V1/AHMp9prIeiJrD4/hRWiGcO+HYqjzjK7mNA2kfq68K/I3y9F5QYhlaG8QpCYA==}
     engines: {node: '>=20.0.0'}
@@ -623,6 +623,9 @@ packages:
 
   '@dashkite/masonry@0.13.0':
     resolution: {integrity: sha512-qGP0Ortn8tzBTY9BRv965V5IIhJCmsNMTjLq0X7Pk80lBgNROc+tV/5BXjziBZ9CG7fcJ5h3ZvCsl1f6byfsFQ==}
+
+  '@dashkite/zephyr@0.2.0':
+    resolution: {integrity: sha512-l3Fm9nyOIp1yBnv4IzGOKVgo1/UucU5WLvsqAfcP2jEVlE4AgpPkODssyloxTyC3N+bhcz1DXqC/7KokI1eVjA==}
 
   '@eslint-community/eslint-utils@4.4.1':
     resolution: {integrity: sha512-s3O3waFUrMV8P/XaF/+ZTp1X9XBZW1a4B97ZnjQF2KYWaFD2A8KyFBsrsfSjEmjn3RGWAIuvlneuZm3CUK3jbA==}
@@ -1370,6 +1373,11 @@ packages:
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+
+  zx@8.6.1:
+    resolution: {integrity: sha512-ig4Gn2e3L9QaQq3OsyDyGKvXFiq7wYvLCPmFJgcneHsr5vTeJefe0SXtDE7qaur9ysv7giAc0CmEtQcS71UA5Q==}
+    engines: {node: '>= 12.17.0'}
+    hasBin: true
 
 snapshots:
 
@@ -2119,6 +2127,11 @@ snapshots:
       - '@swc/helpers'
       - supports-color
 
+  '@dashkite/genie-release@0.2.0':
+    dependencies:
+      '@dashkite/zephyr': 0.2.0
+      zx: 8.6.1
+
   '@dashkite/genie@0.8.4':
     dependencies:
       '@dashkite/joy': 0.3.16
@@ -2160,6 +2173,11 @@ snapshots:
       fast-glob: 3.3.3
     transitivePeerDependencies:
       - supports-color
+
+  '@dashkite/zephyr@0.2.0':
+    dependencies:
+      '@dashkite/joy': 0.3.16
+      js-yaml: 4.1.0
 
   '@eslint-community/eslint-utils@4.4.1(eslint@8.57.1)':
     dependencies:
@@ -2852,3 +2870,5 @@ snapshots:
   yallist@3.1.1: {}
 
   yocto-queue@0.1.0: {}
+
+  zx@8.6.1: {}
