@@ -1,6 +1,6 @@
 {
   "name": "@dashkite/zephyr",
-  "version": "0.13.14",
+  "version": "0.13.15",
   "description": "Read/write configuration files easily",
   "keywords": [],
   "homepage": "https://github.com/dashkite/zephyr#readme",
