@@ -1,64 +1,36 @@
 # Zephyr
 
-*Read/write configuration files easily*
+*Read and write configuration files easily*
+
+[![Hippocratic License HL3-CORE](https://img.shields.io/static/v1?label=Hippocratic%20License&message=HL3-CORE&labelColor=5e2751&color=bc8c3d)](https://firstdonoharm.dev/version/3/0/core.html)
+
+Zephyr provides a straightforward approach to managing configuration files, offering caching, parsing, and structured updates.
+
+## Features
+
+- Reads and writes files based on extension.
+- Automatically handles JSON and YAML formatting out of the box.
+- Provides an internal cache to reduce disk operations.
+- Exposes both static and instance-based APIs for flexibility.
 
 ## Installation
 
-```
-pnpm add @dashkite/zephyr
+```shell
+pnpm install @dashkite/zephyr
 ```
 
 ## Usage
 
 ```coffeescript
-data = await Zephyr.read "test/test.yaml"
-assert.equal data.greeting, "Hello, world!"
+import Zephyr from "@dashkite/zephyr"
+
+data = await Zephyr.read "config.yaml"
+console.log data.greeting
 ```
 
-## Zephyr API Reference
+## Other Resources
 
-Zephyr is a library for reading and writing configuration files.
-
-### Class: Zephyr
-
-#### Static Methods
-
-- `clear` - Clears the file contents cache.
-- `make` - Creates a `Zephyr` instance for a file path.
-- `register` - Registers parse/format handlers. 
-- `exists` - Checks if a file exists.
-- `read` - Reads file contents.
-- `write` - Writes file contents.
-- `update` - Updates file contents.
-- `remove` - Deletes a file.
-
-#### Instance Properties
-
-- `path` - The file path associated with this instance.
-
-### Methods
-
-#### exists
-- **Description:** Determine whether a given file exists on disk.
-- **Parameters:**
-  - `path` - File path to read from.  
-- **Returns:** A promise resolving to `true` if the file exists, `false` otherwise.
-
-#### read
-- **Description:** Reads file contents from disk, caching and reusing existing cache values.
-- **Parameters:**
-  - `path` - File path to read from.  
-- **Returns:** A promise resovling to the file contents parsed using handlers for the given file extension.
-
-#### write
-- **Description:** Writes data to a file on disk, updating the cache.
-- **Parameters:**
-  - `path` - File path to write to.
-  - `data` - Data to write to the file.
-- **Returns:** a promise that resolves when the file has been written.
-
-#### remove 
-- **Description:** Deletes a file from disk.
-- **Parameters:**
-  - `path` - Path of the file to delete.
-- **Returns:** A promise that resolves when the file has been deleted.
+- [Reference Documentation](docs/reference.md)
+- [Usage Guides](docs/recipes.md)
+- [Technical Notes](docs/technical-notes.md)
+- [Testing](docs/testing.md)
